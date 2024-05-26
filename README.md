@@ -37,4 +37,30 @@ export default {
     outDir: "../public",
     },
 };
-출처: https://webstoryboy.co.kr/1924 [WEBSTORYBOY:티스토리]
+```
+```javascript
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+
+
+export function port() {
+    gsap.registerPlugin(ScrollTrigger);
+    const horSection = gsap.utils.toArray(".port__item");
+    
+    gsap.to(horSection, {
+        xPercent: -100 * (horSection.length -1),
+        ease: "none",
+        scrollTrigger: {
+            trigger: "#port",
+            start: "top top",
+            end: "+=3000",
+            pin: true,
+            scrub: 1,
+            markers: false,
+            invalidateOnRefresh: true,
+            anticipatePin: 1,
+        }
+    })
+    
+}
+```
