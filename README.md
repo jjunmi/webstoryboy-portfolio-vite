@@ -44,6 +44,7 @@ export default {
     text-transform: uppercase;
     filter: grayscale(0); /* 흑백 */
     filter: grayscale(100%);
+    filter: saturate(100%);
     text-decoration: underline;
     text-underline-position: under;
 ```
@@ -183,23 +184,6 @@ export function menu() {
 }
 ```
 ```javascript
-//link.js
-export function link() {
-    document.querySelectorAll("a[href^='#']").forEach((anchor) => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-
-            const targetId = this.getAttribute("href");
-            const targetElement = document.querySelector(targetId);
-
-            if(targetElement) {
-                targetElement.scrollIntoView({behavior: "smooth"});
-            }
-        })
-    });
-}
-```
-```javascript
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 
@@ -223,3 +207,42 @@ export function port() {
     })
 }
 ```
+```javascript
+//link.js
+export function link() {
+    document.querySelectorAll("a[href^='#']").forEach((anchor) => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute("href");
+            const targetElement = document.querySelector(targetId);
+
+            if(targetElement) {
+                targetElement.scrollIntoView({behavior: "smooth"});
+            }
+        })
+    });
+}
+```
+```javascript
+import Lenis from "@studio-freight/lenis";
+
+export function smooth() {
+    const lenis = new Lenis({ 
+        duration: 1,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    });
+
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    lenis.on("scroll", (e) => {
+        console.log(e);
+    });
+} 
+```
+
